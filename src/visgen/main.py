@@ -7,6 +7,7 @@ All output files are saved to the `output/` directory.
 
 import os
 import numpy as np
+from PIL import Image
 
 from visgen import (
     AudioVisualizerVideo,
@@ -732,5 +733,124 @@ if __name__ == "__main__":
         visualizer=custom_viz,
         overlays=[
             TextOverlay("Custom Viz Inline", (540, 80), font_size=55, anchor="mm"),
+        ],
+    )
+
+    # =====================================================================
+    # EXAMPLE 31: Frame effects — glow + vignette
+    # =====================================================================
+    from visgen import GlowEffect, VignetteEffect
+
+    viz = AudioVisualizerVideo(
+        audio_path="assets/audio.wav",
+        image_path="assets/photo.jpg",
+        output_path="output/31_frame_effects.mp4",
+        colors=single_colors,
+        frame_effects=[
+            GlowEffect(strength=0.4, radius=10.0),
+            VignetteEffect(strength=0.5),
+        ],
+    )
+    viz.render_single()
+
+    # =====================================================================
+    # EXAMPLE 32: Bar effects — bounce + smooth decay
+    # =====================================================================
+    from visgen import BounceEffect, SmoothDecayEffect
+
+    viz = AudioVisualizerVideo(
+        audio_path="assets/audio.wav",
+        image_path="assets/photo.jpg",
+        output_path="output/32_bar_effects.mp4",
+        colors=single_colors,
+        bar_effects=[
+            BounceEffect(speed=0.15, amplitude=0.2),
+            SmoothDecayEffect(decay=0.9),
+        ],
+    )
+    viz.render_single()
+
+    # =====================================================================
+    # EXAMPLE 33: Shake effect synced to bass
+    # =====================================================================
+    from visgen import ShakeEffect
+
+    viz = AudioVisualizerVideo(
+        audio_path="assets/audio.wav",
+        image_path="assets/photo.jpg",
+        output_path="output/33_shake_effect.mp4",
+        colors=single_colors,
+        frame_effects=[ShakeEffect(max_offset=15, bass_bins=10)],
+    )
+    viz.render_single()
+
+    # =====================================================================
+    # EXAMPLE 34: Zoom pulse effect
+    # =====================================================================
+    from visgen import ZoomPulseEffect
+
+    viz = AudioVisualizerVideo(
+        audio_path="assets/audio.wav",
+        image_path="assets/photo.jpg",
+        output_path="output/34_zoom_pulse.mp4",
+        colors=single_colors,
+        frame_effects=[ZoomPulseEffect(max_zoom=0.08)],
+    )
+    viz.render_single()
+
+    # =====================================================================
+    # EXAMPLE 35: Custom inline effect + plugin registry
+    # =====================================================================
+    from visgen import Plugin, PluginMeta, PluginRegistry
+    from visgen.effects.base import FrameEffect
+    from visgen.bars.base import BarEffect
+    import numpy as np
+
+    class MyGreenTint(FrameEffect):
+        def apply(self, frame, frame_idx, bar_values=None):
+            arr = np.array(frame, dtype=np.float32)
+            arr[:, :, 1] *= 1.15  # boost green channel
+            return Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8))
+
+    class MySquashBars(BarEffect):
+        def process(self, bar_values, frame_idx, audio_chunk=None):
+            return np.power(bar_values, 1.5)  # compress dynamic range
+
+    viz = AudioVisualizerVideo(
+        audio_path="assets/audio.wav",
+        image_path="assets/photo.jpg",
+        output_path="output/35_custom_effects.mp4",
+        colors=single_colors,
+        frame_effects=[MyGreenTint()],
+        bar_effects=[MySquashBars()],
+    )
+    viz.render_single(
+        overlays=[
+            TextOverlay("Custom Effects Demo", (540, 80), font_size=50, anchor="mm"),
+        ],
+    )
+
+    # =====================================================================
+    # EXAMPLE 36: Multi-viz + effects combined
+    # =====================================================================
+    from visgen import GlowEffect, BounceEffect
+
+    left = CircularVisualizer("assets/photo1.jpg", 140, 64, 180, colors=quad_colors[0])
+    right = CircularVisualizer("assets/photo2.jpg", 140, 64, 180, colors=quad_colors[1])
+    video = AudioVisualizerVideo(
+        audio_path="assets/audio.wav",
+        output_path="output/36_multi_with_effects.mp4",
+        visualizers=[left, right],
+        background=ColorBackground((10, 10, 20)),
+        frame_effects=[GlowEffect(strength=0.3, radius=8.0)],
+        bar_effects=[BounceEffect(speed=0.1, amplitude=0.15)],
+    )
+    video.render_multi(
+        configs=[
+            (left, (300, 540), 0),
+            (right, (780, 540), np.pi),
+        ],
+        overlays=[
+            TextOverlay("Multi + Effects", (540, 60), font_size=50, anchor="mm"),
         ],
     )

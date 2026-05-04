@@ -10,6 +10,8 @@ from PIL import Image, ImageDraw
 from .audio import AudioProcessor
 from .background import Background, ColorBackground
 from .colors import ColorScheme
+from .effects.base import FrameEffect
+from .bars.base import BarEffect
 from .overlay import BaseOverlay, ImageOverlay, TextOverlay, TimedText, VideoOverlay
 from .utils import get_font, resolve_position
 from .visualizer import CircularVisualizer
@@ -34,6 +36,8 @@ class AudioVisualizerVideo:
         smooth_factor: float = 0.3,
         background: Optional[Background] = None,
         visualizers: Optional[List[CircularVisualizer]] = None,
+        frame_effects: Optional[List[FrameEffect]] = None,
+        bar_effects: Optional[List[BarEffect]] = None,
     ):
         self.audio_path = audio_path
         self.output_path = output_path
@@ -63,6 +67,9 @@ class AudioVisualizerVideo:
 
         # Backward-compat alias
         self.visualizer = self.visualizers[0]
+
+        self.frame_effects = list(frame_effects) if frame_effects else []
+        self.bar_effects = list(bar_effects) if bar_effects else []
 
     def _create_temp_dir(self, suffix: str = "") -> str:
         path = f"/tmp/visualizer_frames{suffix}"
@@ -207,6 +214,9 @@ class AudioVisualizerVideo:
             )
             prev_bars = bar_values.copy()
 
+            for effect in self.bar_effects:
+                bar_values = effect.process(bar_values, frame_idx)
+
             viz.render(
                 img_pil,
                 center_x,
@@ -219,6 +229,9 @@ class AudioVisualizerVideo:
             draw = ImageDraw.Draw(img_pil)
             self._draw_texts(draw, frame_idx, overlays)
             self._draw_media_overlays(img_pil, frame_idx, overlays)
+
+            for effect in self.frame_effects:
+                img_pil = effect.apply(img_pil, frame_idx, bar_values)
 
             frame = np.array(img_pil.convert("RGB"))
             cv2.imwrite(
@@ -257,6 +270,10 @@ class AudioVisualizerVideo:
         temp_video = "/tmp/temp_video_multi.mp4"
 
         prev_bars = [np.zeros(c[0].bar_count) for c in configs]
+        for effect in self.bar_effects:
+            effect.reset()
+        for effect in self.frame_effects:
+            effect.reset()
 
         for frame_idx in range(self.total_frames):
             img_pil = self.background.render(width, height, frame_idx)
@@ -266,6 +283,9 @@ class AudioVisualizerVideo:
                     frame_idx, viz.bar_count, prev_bars[i], self.smooth_factor
                 )
                 prev_bars[i] = bar_values.copy()
+
+                for effect in self.bar_effects:
+                    bar_values = effect.process(bar_values, frame_idx)
 
                 cx, cy = resolve_position(
                     position, width, height,
@@ -285,6 +305,9 @@ class AudioVisualizerVideo:
             draw = ImageDraw.Draw(img_pil)
             self._draw_texts(draw, frame_idx, overlays)
             self._draw_media_overlays(img_pil, frame_idx, overlays)
+
+            for effect in self.frame_effects:
+                img_pil = effect.apply(img_pil, frame_idx)
 
             frame = np.array(img_pil.convert("RGB"))
             cv2.imwrite(
@@ -330,6 +353,10 @@ class AudioVisualizerVideo:
         temp_dir = self._create_temp_dir("_quad_repeat")
         temp_video = "/tmp/temp_video_quad_repeat.mp4"
         prev_bars = np.zeros(self.visualizer.bar_count)
+        for effect in self.bar_effects:
+            effect.reset()
+        for effect in self.frame_effects:
+            effect.reset()
 
         for frame_idx in range(self.total_frames):
             img_pil = self.background.render(width, height, frame_idx)
@@ -339,6 +366,9 @@ class AudioVisualizerVideo:
                 frame_idx, self.visualizer.bar_count, prev_bars, self.smooth_factor
             )
             prev_bars = bar_values.copy()
+
+            for effect in self.bar_effects:
+                bar_values = effect.process(bar_values, frame_idx)
 
             gap = self.visualizer.gap
             inner_r = self.visualizer.inner_radius
@@ -396,6 +426,9 @@ class AudioVisualizerVideo:
             self._draw_texts(draw, frame_idx, overlays)
             self._draw_media_overlays(img_pil, frame_idx, overlays)
 
+            for effect in self.frame_effects:
+                img_pil = effect.apply(img_pil, frame_idx, bar_values)
+
             frame = np.array(img_pil.convert("RGB"))
             cv2.imwrite(
                 os.path.join(temp_dir, f"frame_{frame_idx:06d}.png"),
@@ -444,6 +477,10 @@ class AudioVisualizerVideo:
         temp_dir = self._create_temp_dir("_quad_repeat_mc")
         temp_video = "/tmp/temp_video_quad_repeat_mc.mp4"
         prev_bars = np.zeros(self.visualizer.bar_count)
+        for effect in self.bar_effects:
+            effect.reset()
+        for effect in self.frame_effects:
+            effect.reset()
 
         for frame_idx in range(self.total_frames):
             img_pil = self.background.render(width, height, frame_idx)
@@ -454,6 +491,9 @@ class AudioVisualizerVideo:
                 frame_idx, self.visualizer.bar_count, prev_bars, self.smooth_factor
             )
             prev_bars = bar_values.copy()
+
+            for effect in self.bar_effects:
+                bar_values = effect.process(bar_values, frame_idx)
 
             for qi, (q_start, q_end) in enumerate(quadrant_ranges):
                 for i in range(self.visualizer.bar_count):
@@ -502,6 +542,9 @@ class AudioVisualizerVideo:
 
             self._draw_texts(draw, frame_idx, overlays)
             self._draw_media_overlays(img_pil, frame_idx, overlays)
+
+            for effect in self.frame_effects:
+                img_pil = effect.apply(img_pil, frame_idx, bar_values)
 
             frame = np.array(img_pil.convert("RGB"))
             cv2.imwrite(
