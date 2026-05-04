@@ -133,22 +133,36 @@ class AudioVisualizerVideo:
                 if not (item.start_time <= current_time <= item.end_time):
                     continue
                 font = get_font(item.font_path, item.font_size)
-                draw.text(
-                    item.position,
-                    item.text,
-                    fill=item.color,
-                    font=font,
-                    anchor=item.anchor,
-                )
+                self._draw_text_item(draw, item, font)
             elif isinstance(item, TextOverlay):
                 font = get_font(item.font_path, item.font_size)
-                draw.text(
-                    item.position,
-                    item.text,
-                    fill=item.color,
-                    font=font,
-                    anchor=item.anchor,
-                )
+                self._draw_text_item(draw, item, font)
+
+    def _draw_text_item(
+        self,
+        draw: ImageDraw.Draw,
+        item: Union[TextOverlay, TimedText],
+        font,
+    ) -> None:
+        """Draw a single text item with optional background box."""
+        if item.bg_color is not None:
+            bbox = draw.textbbox(
+                item.position, item.text, font=font, anchor=item.anchor
+            )
+            pad = item.bg_padding
+            padded = (bbox[0] - pad, bbox[1] - pad, bbox[2] + pad, bbox[3] + pad)
+            if item.bg_radius > 0:
+                draw.rounded_rectangle(padded, radius=item.bg_radius, fill=item.bg_color)
+            else:
+                draw.rectangle(padded, fill=item.bg_color)
+
+        draw.text(
+            item.position,
+            item.text,
+            fill=item.color,
+            font=font,
+            anchor=item.anchor,
+        )
 
     def _draw_media_overlays(
         self,

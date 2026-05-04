@@ -11,6 +11,7 @@ dependencies = [
     "numpy>=2.4.4",
     "opencv-python>=4.13.0.92",
     "pillow>=12.2.0",
+    "cairosvg>=2.9.0",
 ]
 
 [project.scripts]

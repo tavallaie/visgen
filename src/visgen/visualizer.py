@@ -3,6 +3,7 @@ from PIL import Image, ImageDraw
 from typing import Optional
 
 from .colors import ColorScheme
+from .utils import open_image
 
 
 class CircularVisualizer:
@@ -27,7 +28,7 @@ class CircularVisualizer:
 
     def _load_circle_image(self, image_path: str) -> Image.Image:
         """Load and mask image into a circle."""
-        img = Image.open(image_path).convert("RGBA")
+        img = open_image(image_path, "RGBA")
         size = self.circle_radius * 2
         img = img.resize((size, size), Image.LANCZOS)
         mask = Image.new("L", (size, size), 0)

@@ -4,6 +4,8 @@ from typing import Tuple, Optional
 import cv2
 from PIL import Image
 
+from .utils import open_image
+
 
 @dataclass
 class TextOverlay:
@@ -15,6 +17,9 @@ class TextOverlay:
     font_size: int = 40
     font_path: Optional[str] = None
     anchor: str = "mm"
+    bg_color: Optional[Tuple[int, int, int]] = None
+    bg_padding: int = 10
+    bg_radius: int = 0
 
 
 @dataclass
@@ -29,6 +34,9 @@ class TimedText:
     font_size: int = 40
     font_path: Optional[str] = None
     anchor: str = "mm"
+    bg_color: Optional[Tuple[int, int, int]] = None
+    bg_padding: int = 10
+    bg_radius: int = 0
 
 
 class BaseOverlay(ABC):
@@ -98,7 +106,7 @@ class ImageOverlay(BaseOverlay):
 
     def _get_image(self) -> Image.Image:
         if self._image is None:
-            img = Image.open(self.image_path).convert("RGBA")
+            img = open_image(self.image_path, "RGBA")
             if self.size:
                 img = img.resize(self.size, Image.LANCZOS)
             if self.opacity < 1.0:

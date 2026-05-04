@@ -1,9 +1,49 @@
+import io
 import os
 from typing import Tuple, Union
-from PIL import ImageFont
+from PIL import Image, ImageFont
 
 
 Position = Union[Tuple[int, int], str]
+
+
+def _is_svg(path: str) -> bool:
+    """Peek at file header to detect SVG/XML content."""
+    try:
+        with open(path, "rb") as f:
+            header = f.read(512)
+    except Exception:
+        return False
+    # SVG may start with XML declaration or whitespace, then <svg
+    return b"<svg" in header or b"<SVG" in header
+
+
+def _load_svg(path: str, mode: str) -> Image.Image:
+    """Rasterise an SVG to a PIL Image via CairoSVG."""
+    try:
+        import cairosvg
+    except ImportError as exc:
+        raise RuntimeError(
+            "SVG support requires 'cairosvg'. Install it with: uv pip install cairosvg"
+        ) from exc
+    png_data = cairosvg.svg2png(url=path)
+    return Image.open(io.BytesIO(png_data)).convert(mode)
+
+
+def open_image(path: str, mode: str = "RGBA") -> Image.Image:
+    """Open an image file. Supports all PIL formats plus SVG via CairoSVG."""
+    # Fast path: explicit SVG extension
+    if path.lower().endswith(".svg"):
+        return _load_svg(path, mode)
+
+    # Fast path: let PIL handle regular raster images (PNG, JPG, WEBP, GIF, BMP, …)
+    try:
+        return Image.open(path).convert(mode)
+    except Exception:
+        # If PIL chokes, check whether the file is actually an SVG with a wrong/missing extension
+        if _is_svg(path):
+            return _load_svg(path, mode)
+        raise
 
 
 def get_font(font_path: str | None, font_size: int):

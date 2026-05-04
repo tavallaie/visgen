@@ -1,5 +1,5 @@
 from .audio import AudioProcessor
-from .background import Background, ColorBackground, ImageBackground
+from .background import Background, ColorBackground, ImageBackground, VideoBackground
 from .bars import BarEffect, BounceEffect, MirrorEffect, SmoothDecayEffect
 from .colors import ColorScheme
 from .effects import FrameEffect, GlowEffect, VignetteEffect, ShakeEffect, ZoomPulseEffect
@@ -14,6 +14,7 @@ __all__ = [
     "Background",
     "ColorBackground",
     "ImageBackground",
+    "VideoBackground",
     "BarEffect",
     "BounceEffect",
     "MirrorEffect",
@@ -38,7 +39,3 @@ __all__ = [
     "resolve_position",
     "CircularVisualizer",
 ]
-
-
-def main() -> None:
-    print("Hello from visgen! Use AudioVisualizerVideo to create visualizer videos.")
