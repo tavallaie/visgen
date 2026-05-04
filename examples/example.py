@@ -5,9 +5,21 @@ Each example is a standalone function. Choose which ones to run by editing
 the EXAMPLES list at the bottom of the file.
 
 All output files are saved to the `output/` directory.
+
+Run with:
+    python example.py
+
+Requires the visgen package. Install it first:
+    pip install -e .
+
+Or add src/ to PYTHONPATH:
+    PYTHONPATH=src python example.py
 """
 
 import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 import numpy as np
 from PIL import Image
@@ -62,7 +74,7 @@ quad_colors = [
 def example_01_minimal() -> None:
     """Minimal single visualizer (default background + center)."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/01_minimal.mp4",
     )
@@ -72,7 +84,7 @@ def example_01_minimal() -> None:
 def example_02_color_bg() -> None:
     """Solid color background."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/02_color_bg.mp4",
         background=ColorBackground(color=(30, 10, 40)),
@@ -83,7 +95,7 @@ def example_02_color_bg() -> None:
 def example_03_image_bg_cover() -> None:
     """Image background — cover fit (no effect)."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/03_image_bg_cover.mp4",
         background=ImageBackground("assets/background.jpg", fit_mode="cover"),
@@ -94,7 +106,7 @@ def example_03_image_bg_cover() -> None:
 def example_04_image_bg_blur() -> None:
     """Image background — blur effect."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/04_image_bg_blur.mp4",
         background=ImageBackground(
@@ -110,7 +122,7 @@ def example_04_image_bg_blur() -> None:
 def example_05_image_bg_grayscale() -> None:
     """Image background — grayscale effect."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/05_image_bg_grayscale.mp4",
         background=ImageBackground(
@@ -125,8 +137,8 @@ def example_05_image_bg_grayscale() -> None:
 def example_06_image_bg_sepia() -> None:
     """Image background — sepia effect + lowered opacity."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/06_image_bg_sepia.mp4",
         background=ImageBackground(
             "assets/background.jpg",
@@ -141,8 +153,8 @@ def example_06_image_bg_sepia() -> None:
 def example_07_position_topleft() -> None:
     """Position — top-left corner."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/07_position_topleft.mp4",
     )
     viz.render_single(position="top-left")
@@ -151,8 +163,8 @@ def example_07_position_topleft() -> None:
 def example_08_position_bottomright() -> None:
     """Position — bottom-right corner."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/08_position_bottomright.mp4",
     )
     viz.render_single(position="bottom-right")
@@ -161,7 +173,7 @@ def example_08_position_bottomright() -> None:
 def example_09_position_custom() -> None:
     """Position — custom pixel coordinates."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/09_position_custom.mp4",
     )
@@ -171,7 +183,7 @@ def example_09_position_custom() -> None:
 def example_10_text_title() -> None:
     """Text overlay — static title."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/10_text_title.mp4",
         colors=single_colors,
@@ -192,7 +204,7 @@ def example_10_text_title() -> None:
 def example_11_timed_lyrics() -> None:
     """Timed text — lyrics / captions."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/11_timed_lyrics.mp4",
         colors=single_colors,
@@ -222,14 +234,14 @@ def example_11_timed_lyrics() -> None:
 def example_12_image_overlay_static() -> None:
     """Image overlay — static logo (no time limit)."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/album.jpg",
         output_path="output/12_image_overlay_static.mp4",
     )
     viz.render_single(
         overlays=[
             ImageOverlay(
-                image_path="assets/logo.png",
+                image_path="assets/logo.svg",
                 position=(100, 100),
                 size=(120, 120),
                 anchor="mm",
@@ -241,14 +253,14 @@ def example_12_image_overlay_static() -> None:
 def example_13_image_overlay_timed() -> None:
     """Image overlay — timed badge (appears only 2s-6s)."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/album.jpg",
         output_path="output/13_image_overlay_timed.mp4",
     )
     viz.render_single(
         overlays=[
             ImageOverlay(
-                image_path="assets/logo.png",
+                image_path="assets/logo.svg",
                 position=(540, 540),
                 size=(200, 200),
                 anchor="mm",
@@ -263,14 +275,14 @@ def example_13_image_overlay_timed() -> None:
 def example_14_image_watermark() -> None:
     """Image overlay — corner watermark with opacity."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/album.jpg",
         output_path="output/14_image_watermark.mp4",
     )
     viz.render_single(
         overlays=[
             ImageOverlay(
-                image_path="assets/watermark.png",
+                image_path="assets/logo.svg",
                 position=(1020, 1020),
                 size=(80, 80),
                 anchor="rb",
@@ -283,8 +295,8 @@ def example_14_image_watermark() -> None:
 def example_15_video_overlay_loop() -> None:
     """Video overlay — looping corner animation (no time limit)."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/15_video_overlay_loop.mp4",
     )
     viz.render_single(
@@ -303,8 +315,8 @@ def example_15_video_overlay_loop() -> None:
 def example_16_video_overlay_timed() -> None:
     """Video overlay — timed, no loop."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/16_video_overlay_timed.mp4",
     )
     viz.render_single(
@@ -325,8 +337,8 @@ def example_16_video_overlay_timed() -> None:
 def example_17_mixed_overlays() -> None:
     """Mixed overlays — text + image + video + background."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/17_mixed_overlays.mp4",
         circle_radius=160,
         bar_count=72,
@@ -342,7 +354,7 @@ def example_17_mixed_overlays() -> None:
         position="center",
         overlays=[
             TextOverlay("Mixed Overlay Demo", (540, 60), font_size=50, anchor="mm"),
-            ImageOverlay("assets/logo.png", (100, 100), size=(100, 100), anchor="mm"),
+            ImageOverlay("assets/logo.svg", (100, 100), size=(100, 100), anchor="mm"),
             TimedText(
                 2.0, 5.0, "Now playing...", (540, 1000), font_size=36, anchor="mm"
             ),
@@ -354,7 +366,7 @@ def example_17_mixed_overlays() -> None:
                 loop=True,
             ),
             ImageOverlay(
-                "assets/logo.png",
+                "assets/photo.jpg",
                 position=(980, 980),
                 size=(120, 120),
                 anchor="mm",
@@ -368,7 +380,7 @@ def example_17_mixed_overlays() -> None:
 def example_18_left_visualizer() -> None:
     """Visualizer on the left, text & media on the right layout."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/18_left_visualizer.mp4",
         circle_radius=200,
@@ -379,11 +391,9 @@ def example_18_left_visualizer() -> None:
     viz.render_single(
         position=(300, 540),
         overlays=[
-            TextOverlay("Artist Name", (800, 300), font_size=50, anchor="mm"),
+            TextOverlay("photo Name", (800, 300), font_size=50, anchor="mm"),
             TextOverlay("Track Title", (800, 380), font_size=36, anchor="mm"),
-            ImageOverlay(
-                "assets/album_art_small.png", (800, 600), size=(200, 200), anchor="mm"
-            ),
+            ImageOverlay("assets/album.jpg", (800, 600), size=(200, 200), anchor="mm"),
             TimedText(1.0, 4.0, "Intro", (800, 800), font_size=30, anchor="mm"),
             TimedText(4.5, 8.0, "Verse 1", (800, 800), font_size=30, anchor="mm"),
         ],
@@ -396,7 +406,7 @@ def example_19_quad_same() -> None:
         "assets/photo.jpg", circle_radius=180, bar_count=80, colors=single_colors
     )
     video = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         output_path="output/19_quad_same_bg.mp4",
         visualizers=[qv],
         background=ImageBackground(
@@ -419,7 +429,7 @@ def example_19_quad_same() -> None:
             TextOverlay(
                 "Quad Same via render_multi", (1080, 60), font_size=50, anchor="mm"
             ),
-            ImageOverlay("assets/logo.png", (100, 100), size=(100, 100), anchor="mm"),
+            ImageOverlay("assets/logo.svg", (100, 100), size=(100, 100), anchor="mm"),
             VideoOverlay(
                 "assets/loop.mp4", (2000, 2000), size=(200, 200), anchor="mm", loop=True
             ),
@@ -430,11 +440,11 @@ def example_19_quad_same() -> None:
 def example_20_quad_diff_colors() -> None:
     """Quad different colors — now using render_multi."""
     v1 = CircularVisualizer("assets/photo.jpg", 180, 80, 250, colors=quad_colors[0])
-    v2 = CircularVisualizer("assets/photo.jpg", 180, 80, 250, colors=quad_colors[1])
-    v3 = CircularVisualizer("assets/photo.jpg", 180, 80, 250, colors=quad_colors[2])
+    v2 = CircularVisualizer("assets/album.jpg", 180, 80, 250, colors=quad_colors[1])
+    v3 = CircularVisualizer("assets/cover.jpg", 180, 80, 250, colors=quad_colors[2])
     v4 = CircularVisualizer("assets/photo.jpg", 180, 80, 250, colors=quad_colors[3])
     video = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         output_path="output/20_quad_diff_colors.mp4",
         visualizers=[v1, v2, v3, v4],
         background=ColorBackground((15, 15, 30)),
@@ -456,7 +466,7 @@ def example_20_quad_diff_colors() -> None:
                 anchor="mm",
             ),
             ImageOverlay(
-                "assets/logo.png",
+                "assets/logo.svg",
                 position=(1080, 2050),
                 size=(150, 150),
                 start_time=2.0,
@@ -470,13 +480,13 @@ def example_20_quad_diff_colors() -> None:
 def example_21_repeat_single() -> None:
     """Repeated bars single color + background image."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/21_repeat_single.mp4",
         circle_radius=180,
         bar_count=80,
         colors=single_colors,
-        background=ImageBackground("assets/background.jpg", fit_mode="cover"),
+        background=ImageBackground("assets/cover.jpg", fit_mode="cover"),
     )
     viz.render_quad_repeated_bars(
         dividers=True,
@@ -495,8 +505,8 @@ def example_21_repeat_single() -> None:
 def example_22_repeat_multicolor() -> None:
     """Repeated bars multi-color + all overlay types."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/22_repeat_multicolor_full.mp4",
         circle_radius=180,
         bar_count=80,
@@ -515,7 +525,7 @@ def example_22_repeat_multicolor() -> None:
         overlays=[
             TextOverlay("Full Feature Demo", (540, 60), font_size=50, anchor="mm"),
             TimedText(1.0, 4.0, "Intro...", (540, 1000), font_size=35, anchor="mm"),
-            ImageOverlay("assets/logo.png", (100, 100), size=(100, 100), anchor="mm"),
+            ImageOverlay("assets/logo.svg", (100, 100), size=(100, 100), anchor="mm"),
             VideoOverlay(
                 "assets/loop.mp4",
                 position=(980, 100),
@@ -530,8 +540,8 @@ def example_22_repeat_multicolor() -> None:
 def example_23_power_user() -> None:
     """Everything together — the 'power user' demo."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/23_power_user.mp4",
         circle_radius=170,
         bar_count=72,
@@ -559,9 +569,9 @@ def example_23_power_user() -> None:
             TimedText(
                 7.0, 10.0, "Feel the rhythm", (800, 700), font_size=32, anchor="mm"
             ),
-            ImageOverlay("assets/logo.png", (100, 100), size=(100, 100), anchor="mm"),
+            ImageOverlay("assets/logo.svg", (100, 100), size=(100, 100), anchor="mm"),
             ImageOverlay(
-                "assets/logo.png",
+                "assets/logo.svg",
                 position=(100, 980),
                 size=(120, 120),
                 anchor="mm",
@@ -593,7 +603,7 @@ def example_24_position_showcase() -> None:
     positions = ["top-left", "top-right", "bottom-left", "bottom-right", "center"]
     for pos in positions:
         viz = AudioVisualizerVideo(
-            audio_path="assets/audio.wav",
+            audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
             image_path="assets/photo.jpg",
             output_path=f"output/24_position_{pos.replace('-', '_')}.mp4",
             background=ColorBackground((20, 20, 35)),
@@ -611,7 +621,7 @@ def example_25_bg_effects() -> None:
     ]
     for name, effect in effects:
         viz = AudioVisualizerVideo(
-            audio_path="assets/audio.wav",
+            audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
             image_path="assets/photo.jpg",
             output_path=f"output/25_bg_{name}.mp4",
             background=ImageBackground(
@@ -627,7 +637,7 @@ def example_25_bg_effects() -> None:
 def example_25b_blur_grayscale() -> None:
     """Chained background effects — blur + grayscale."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/25b_bg_blur_grayscale.mp4",
         background=ImageBackground(
@@ -643,7 +653,7 @@ def example_25b_blur_grayscale() -> None:
 def example_25c_blur_sepia() -> None:
     """Chained background effects — blur + sepia + opacity."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/25c_bg_blur_sepia.mp4",
         background=ImageBackground(
@@ -666,13 +676,13 @@ def example_26_multi_two_side() -> None:
         colors=ColorScheme(bar=(0, 200, 255), bar_glow=(0, 200, 255)),
     )
     right_viz = CircularVisualizer(
-        "assets/scene.jpg",
+        "assets/photo.jpg",
         circle_radius=140,
         bar_count=64,
         colors=ColorScheme(bar=(255, 100, 100), bar_glow=(255, 100, 100)),
     )
     video = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         output_path="output/26_multi_two_side.mp4",
         visualizers=[left_viz, right_viz],
         background=ColorBackground((10, 10, 20)),
@@ -691,10 +701,10 @@ def example_26_multi_two_side() -> None:
 def example_27_multi_three_row() -> None:
     """Three visualizers in a row."""
     viz_a = CircularVisualizer("assets/photo.jpg", 100, 48, 150, colors=quad_colors[0])
-    viz_b = CircularVisualizer("assets/photo.jpg", 100, 48, 150, colors=quad_colors[1])
-    viz_c = CircularVisualizer("assets/photo.jpg", 100, 48, 150, colors=quad_colors[2])
+    viz_b = CircularVisualizer("assets/cover.jpg", 100, 48, 150, colors=quad_colors[1])
+    viz_c = CircularVisualizer("assets/album.jpg", 100, 48, 150, colors=quad_colors[2])
     video = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         output_path="output/27_multi_three_row.mp4",
         visualizers=[viz_a, viz_b, viz_c],
         background=ImageBackground(
@@ -715,12 +725,12 @@ def example_27_multi_three_row() -> None:
 
 def example_28_multi_four_corners() -> None:
     """Four visualizers in each corner."""
-    v1 = CircularVisualizer("assets/photo.jpg", 120, 56, 160, colors=quad_colors[0])
-    v2 = CircularVisualizer("assets/scene.jpg", 120, 56, 160, colors=quad_colors[1])
-    v3 = CircularVisualizer("assets/photo.jpg", 120, 56, 160, colors=quad_colors[2])
-    v4 = CircularVisualizer("assets/scene.jpg", 120, 56, 160, colors=quad_colors[3])
+    v1 = CircularVisualizer("assets/cover.jpg", 120, 56, 160, colors=quad_colors[0])
+    v2 = CircularVisualizer("assets/photo.jpg", 120, 56, 160, colors=quad_colors[1])
+    v3 = CircularVisualizer("assets/album.jpg", 120, 56, 160, colors=quad_colors[2])
+    v4 = CircularVisualizer("assets/watermark.jpg", 120, 56, 160, colors=quad_colors[3])
     video = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         output_path="output/28_multi_four_corners.mp4",
         visualizers=[v1, v2, v3, v4],
         background=ColorBackground((15, 15, 30)),
@@ -744,13 +754,13 @@ def example_29_multi_big_small() -> None:
     """Big + small visualizer combo."""
     big = CircularVisualizer("assets/photo.jpg", 200, 80, 220, colors=single_colors)
     small = CircularVisualizer(
-        "assets/logo.png", 80, 32, 100, colors=ColorScheme(bar=(255, 255, 255))
+        "assets/logo.svg", 80, 32, 100, colors=ColorScheme(bar=(255, 255, 255))
     )
     video = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         output_path="output/29_multi_big_small.mp4",
         visualizers=[big, small],
-        background=ImageBackground("assets/background.jpg", fit_mode="cover"),
+        background=ImageBackground("assets/photo.jpg", fit_mode="cover"),
     )
     video.render_multi(
         configs=[
@@ -759,7 +769,7 @@ def example_29_multi_big_small() -> None:
         ],
         overlays=[
             TextOverlay("Big & Small", (800, 200), font_size=45, anchor="mm"),
-            ImageOverlay("assets/logo.png", (900, 200), size=(80, 80), anchor="mm"),
+            ImageOverlay("assets/logo.svg", (900, 200), size=(80, 80), anchor="mm"),
         ],
     )
 
@@ -774,7 +784,7 @@ def example_30_custom_viz_inline() -> None:
         colors=ColorScheme(bg=(0, 0, 0), bar=(255, 50, 150), bar_glow=(255, 50, 150)),
     )
     video = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/30_custom_viz_inline.mp4",
     )
@@ -790,7 +800,7 @@ def example_30_custom_viz_inline() -> None:
 def example_31_frame_effects() -> None:
     """Frame effects — glow + vignette."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/31_frame_effects.mp4",
         colors=single_colors,
@@ -805,7 +815,7 @@ def example_31_frame_effects() -> None:
 def example_32_bar_effects() -> None:
     """Bar effects — bounce + smooth decay."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         image_path="assets/photo.jpg",
         output_path="output/32_bar_effects.mp4",
         colors=single_colors,
@@ -820,8 +830,8 @@ def example_32_bar_effects() -> None:
 def example_33_shake_effect() -> None:
     """Shake effect synced to bass."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/33_shake_effect.mp4",
         colors=single_colors,
         frame_effects=[ShakeEffect(max_offset=15, bass_bins=10)],
@@ -832,8 +842,8 @@ def example_33_shake_effect() -> None:
 def example_34_zoom_pulse() -> None:
     """Zoom pulse effect."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/34_zoom_pulse.mp4",
         colors=single_colors,
         frame_effects=[ZoomPulseEffect(max_zoom=0.08)],
@@ -855,8 +865,8 @@ def example_35_custom_effects() -> None:
             return np.power(bar_values, 1.5)
 
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
         output_path="output/35_custom_effects.mp4",
         colors=single_colors,
         frame_effects=[MyGreenTint()],
@@ -871,10 +881,14 @@ def example_35_custom_effects() -> None:
 
 def example_36_multi_with_effects() -> None:
     """Multi-viz + effects combined."""
-    left = CircularVisualizer("assets/photo.jpg", 140, 64, 180, colors=quad_colors[0])
-    right = CircularVisualizer("assets/scene.jpg", 140, 64, 180, colors=quad_colors[1])
+    left = CircularVisualizer(
+        "assets/watermark.jpg", 140, 64, 180, colors=quad_colors[0]
+    )
+    right = CircularVisualizer(
+        "assets/watermark.jpg", 140, 64, 180, colors=quad_colors[1]
+    )
     video = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
         output_path="output/36_multi_with_effects.mp4",
         visualizers=[left, right],
         background=ColorBackground((10, 10, 20)),
@@ -895,8 +909,8 @@ def example_36_multi_with_effects() -> None:
 def example_37_bg_blur_grayscale() -> None:
     """Chained background effects — blur + grayscale."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/watermark.jpg",
         output_path="output/37_bg_blur_grayscale.mp4",
         background=ImageBackground(
             "assets/background.jpg",
@@ -911,8 +925,8 @@ def example_37_bg_blur_grayscale() -> None:
 def example_38_bg_blur_sepia() -> None:
     """Chained background effects — blur + sepia + opacity."""
     viz = AudioVisualizerVideo(
-        audio_path="assets/audio.wav",
-        image_path="assets/photo.jpg",
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/watermark.jpg",
         output_path="output/38_bg_blur_sepia.mp4",
         background=ImageBackground(
             "assets/background.jpg",
@@ -925,51 +939,174 @@ def example_38_bg_blur_sepia() -> None:
     viz.render_single()
 
 
+def example_39_video_background() -> None:
+    """Video background — looping video instead of static image."""
+    from visgen import VideoBackground
+
+    viz = AudioVisualizerVideo(
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
+        output_path="output/39_video_bg.mp4",
+        background=VideoBackground(
+            "assets/loop.mp4",
+            fit_mode="cover",
+            loop=True,
+            fps=30,
+        ),
+    )
+    viz.render_single()
+
+
+def example_40_video_bg_with_blur() -> None:
+    """Video background + blur overlay effect"""
+    from visgen import VideoBackground, GlowEffect
+
+    viz = AudioVisualizerVideo(
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
+        output_path="output/40_video_bg_blur.mp4",
+        background=VideoBackground(
+            "assets/background_video.mp4",
+            fit_mode="cover",
+            loop=True,
+            fps=30,
+        ),
+        frame_effects=[GlowEffect(strength=0.3, radius=12.0)],
+    )
+    viz.render_single()
+
+
+def example_41_text_bg_box() -> None:
+    """Text with colored background box"""
+    viz = AudioVisualizerVideo(
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
+        output_path="output/41_text_bg_box.mp4",
+        colors=single_colors,
+    )
+    viz.render_single(
+        overlays=[
+            TextOverlay(
+                text="Title with Background",
+                position=(540, 200),
+                color=(255, 255, 255),
+                font_size=55,
+                anchor="mm",
+                bg_color=(0, 0, 0),
+                bg_padding=16,
+                bg_radius=8,
+            ),
+            TimedText(
+                start_time=2.0,
+                end_time=6.0,
+                text="Lyrics line with bg",
+                position=(540, 800),
+                color=(255, 255, 255),
+                font_size=36,
+                anchor="mm",
+                bg_color=(200, 50, 100),
+                bg_padding=12,
+                bg_radius=4,
+            ),
+        ],
+    )
+
+
+def example_42_text_styling() -> None:
+    """Text styling showcase"""
+    viz = AudioVisualizerVideo(
+        audio_path="assets/852268__holizna__trap-melody-loop-5-ebmin-165-bpm.wav",
+        image_path="assets/cover.jpg",
+        output_path="output/42_text_styling.mp4",
+        background=ColorBackground((20, 20, 30)),
+    )
+    viz.render_single(
+        overlays=[
+            TextOverlay(
+                "Rounded Box",
+                (540, 200),
+                color=(255, 255, 255),
+                font_size=50,
+                anchor="mm",
+                bg_color=(50, 100, 200),
+                bg_padding=20,
+                bg_radius=20,
+            ),
+            TextOverlay(
+                "Sharp Box",
+                (540, 400),
+                color=(0, 0, 0),
+                font_size=40,
+                anchor="mm",
+                bg_color=(255, 200, 50),
+                bg_padding=14,
+                bg_radius=0,
+            ),
+            TimedText(
+                1.0,
+                5.0,
+                "Timed with bg",
+                (540, 600),
+                color=(255, 255, 255),
+                font_size=35,
+                anchor="mm",
+                bg_color=(200, 50, 50),
+                bg_padding=10,
+                bg_radius=6,
+            ),
+        ],
+    )
+
+
 # ============================================================================
 # RUNNER — edit this list to choose which examples execute
 # ============================================================================
 
 EXAMPLES: list = [
-    # example_01_minimal,
-    # example_02_color_bg,
-    # example_03_image_bg_cover,
-    # example_04_image_bg_blur,
-    # example_05_image_bg_grayscale,
-    # example_06_image_bg_sepia,
-    # example_07_position_topleft,
-    # example_08_position_bottomright,
-    # example_09_position_custom,
-    # example_10_text_title,
-    # example_11_timed_lyrics,
-    # example_12_image_overlay_static,
-    # example_13_image_overlay_timed,
-    # example_14_image_watermark,
-    # example_15_video_overlay_loop,
-    # example_16_video_overlay_timed,
-    # example_17_mixed_overlays,
-    # example_18_left_visualizer,
-    # example_19_quad_same,
-    # example_20_quad_diff_colors,
-    # example_21_repeat_single,
-    # example_22_repeat_multicolor,
-    # example_23_power_user,
-    # example_24_position_showcase,
-    # example_25_bg_effects,
-    # example_25b_blur_grayscale,
-    # example_25c_blur_sepia,
-    # example_26_multi_two_side,
-    # example_27_multi_three_row,
-    # example_28_multi_four_corners,
-    # example_29_multi_big_small,
-    # example_30_custom_viz_inline,
-    # example_31_frame_effects,
-    # example_32_bar_effects,
-    # example_33_shake_effect,
-    # example_34_zoom_pulse,
-    # example_35_custom_effects,
+    example_01_minimal,
+    example_02_color_bg,
+    example_03_image_bg_cover,
+    example_04_image_bg_blur,
+    example_05_image_bg_grayscale,
+    example_06_image_bg_sepia,
+    example_07_position_topleft,
+    example_08_position_bottomright,
+    example_09_position_custom,
+    example_10_text_title,
+    example_11_timed_lyrics,
+    example_12_image_overlay_static,
+    example_13_image_overlay_timed,
+    example_14_image_watermark,
+    example_15_video_overlay_loop,
+    example_16_video_overlay_timed,
+    example_17_mixed_overlays,
+    example_18_left_visualizer,
+    example_19_quad_same,
+    example_20_quad_diff_colors,
+    example_21_repeat_single,
+    example_22_repeat_multicolor,
+    example_23_power_user,
+    example_24_position_showcase,
+    example_25_bg_effects,
+    example_25b_blur_grayscale,
+    example_25c_blur_sepia,
+    example_26_multi_two_side,
+    example_27_multi_three_row,
+    example_28_multi_four_corners,
+    example_29_multi_big_small,
+    example_30_custom_viz_inline,
+    example_31_frame_effects,
+    example_32_bar_effects,
+    example_33_shake_effect,
+    example_34_zoom_pulse,
+    example_35_custom_effects,
     example_36_multi_with_effects,
     example_37_bg_blur_grayscale,
     example_38_bg_blur_sepia,
+    example_39_video_background,
+    example_40_video_bg_with_blur,
+    example_41_text_bg_box,
+    example_42_text_styling,
 ]
 
 if __name__ == "__main__":
