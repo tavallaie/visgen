@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageFilter
 from abc import ABC, abstractmethod
-from typing import Tuple, Optional, Literal
+from typing import Tuple, Optional, Literal, Union, List
 
 
 class Background(ABC):
@@ -30,7 +30,7 @@ class ImageBackground(Background):
     def __init__(
         self,
         image_path: str,
-        effect: Optional[Literal["blur", "grayscale", "sepia"]] = None,
+        effect: Optional[Union[Literal["blur", "grayscale", "sepia"], List[Literal["blur", "grayscale", "sepia"]]]] = None,
         blur_radius: float = 5.0,
         opacity: float = 1.0,
         fit_mode: Literal["cover", "contain", "stretch"] = "cover",
@@ -81,12 +81,14 @@ class ImageBackground(Background):
     def render(self, width: int, height: int, frame_idx: int = 0) -> Image.Image:
         img = self._resize(width, height)
 
-        if self.effect == "blur":
-            img = img.filter(ImageFilter.GaussianBlur(radius=self.blur_radius))
-        elif self.effect == "grayscale":
-            img = img.convert("L").convert("RGB")
-        elif self.effect == "sepia":
-            img = self._apply_sepia(img)
+        effects = [self.effect] if isinstance(self.effect, str) else (self.effect or [])
+        for eff in effects:
+            if eff == "blur":
+                img = img.filter(ImageFilter.GaussianBlur(radius=self.blur_radius))
+            elif eff == "grayscale":
+                img = img.convert("L").convert("RGB")
+            elif eff == "sepia":
+                img = self._apply_sepia(img)
 
         if self.opacity < 1.0:
             img = img.convert("RGBA")

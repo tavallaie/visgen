@@ -12,7 +12,7 @@ from .background import Background, ColorBackground
 from .colors import ColorScheme
 from .effects.base import FrameEffect
 from .bars.base import BarEffect
-from .overlay import BaseOverlay, ImageOverlay, TextOverlay, TimedText, VideoOverlay
+from .overlay import BaseOverlay, TextOverlay, TimedText, VideoOverlay
 from .utils import get_font, resolve_position
 from .visualizer import CircularVisualizer
 
@@ -209,13 +209,14 @@ class AudioVisualizerVideo:
         for frame_idx in range(self.total_frames):
             img_pil = self.background.render(width, height, frame_idx)
 
+            audio_chunk = self.audio.get_chunk(frame_idx)
             bar_values = self.audio.get_bar_values(
                 frame_idx, viz.bar_count, prev_bars, self.smooth_factor
             )
             prev_bars = bar_values.copy()
 
             for effect in self.bar_effects:
-                bar_values = effect.process(bar_values, frame_idx)
+                bar_values = effect.process(bar_values, frame_idx, audio_chunk)
 
             viz.render(
                 img_pil,
@@ -278,6 +279,7 @@ class AudioVisualizerVideo:
         for frame_idx in range(self.total_frames):
             img_pil = self.background.render(width, height, frame_idx)
 
+            audio_chunk = self.audio.get_chunk(frame_idx)
             for i, (viz, position, start_angle) in enumerate(configs):
                 bar_values = self.audio.get_bar_values(
                     frame_idx, viz.bar_count, prev_bars[i], self.smooth_factor
@@ -285,7 +287,7 @@ class AudioVisualizerVideo:
                 prev_bars[i] = bar_values.copy()
 
                 for effect in self.bar_effects:
-                    bar_values = effect.process(bar_values, frame_idx)
+                    bar_values = effect.process(bar_values, frame_idx, audio_chunk)
 
                 cx, cy = resolve_position(
                     position, width, height,
@@ -362,13 +364,14 @@ class AudioVisualizerVideo:
             img_pil = self.background.render(width, height, frame_idx)
             draw = ImageDraw.Draw(img_pil)
 
+            audio_chunk = self.audio.get_chunk(frame_idx)
             bar_values = self.audio.get_bar_values(
                 frame_idx, self.visualizer.bar_count, prev_bars, self.smooth_factor
             )
             prev_bars = bar_values.copy()
 
             for effect in self.bar_effects:
-                bar_values = effect.process(bar_values, frame_idx)
+                bar_values = effect.process(bar_values, frame_idx, audio_chunk)
 
             gap = self.visualizer.gap
             inner_r = self.visualizer.inner_radius
@@ -487,13 +490,14 @@ class AudioVisualizerVideo:
             draw = ImageDraw.Draw(img_pil)
             inner_r = self.visualizer.inner_radius
 
+            audio_chunk = self.audio.get_chunk(frame_idx)
             bar_values = self.audio.get_bar_values(
                 frame_idx, self.visualizer.bar_count, prev_bars, self.smooth_factor
             )
             prev_bars = bar_values.copy()
 
             for effect in self.bar_effects:
-                bar_values = effect.process(bar_values, frame_idx)
+                bar_values = effect.process(bar_values, frame_idx, audio_chunk)
 
             for qi, (q_start, q_end) in enumerate(quadrant_ranges):
                 for i in range(self.visualizer.bar_count):
