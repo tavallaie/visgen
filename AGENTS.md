@@ -4,7 +4,7 @@ Context and conventions for AI agents working on the VisGen codebase.
 
 ## Project Overview
 
-VisGen is a Python 3.12+ tool for generating audio-reactive visualizer videos. It extracts mono audio via FFmpeg, performs per-frame FFT analysis, and composites circular bar visualizers onto a canvas using PIL. Final output is H.264 video with AAC audio via FFmpeg.
+VisGen is a Python 3.10+ tool for generating audio-reactive visualizer videos. It extracts mono audio via FFmpeg, performs per-frame FFT analysis, and composites circular bar visualizers onto a canvas using PIL. Final output is H.264 video with AAC audio via FFmpeg.
 
 ## Architecture
 
@@ -38,7 +38,7 @@ VisGen is a Python 3.12+ tool for generating audio-reactive visualizer videos. I
 
 ## Code Conventions
 
-- **Typing**: Python 3.12+ style. Use `|` unions (e.g., `str | None`), not `Optional` / `Union` in new code.
+- **Typing**: Python 3.10+ style. Use `|` unions (e.g., `str | None`), not `Optional` / `Union` in new code.
 - **Formatting**: 4-space indents. Black-compatible.
 - **Imports**: Standard library → third-party → local modules.
 - **Naming**: `snake_case` functions/variables, `PascalCase` classes.

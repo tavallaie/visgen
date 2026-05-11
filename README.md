@@ -19,7 +19,7 @@ Generate beautiful, customizable audio visualizer videos with Python. FFT-reacti
 
 ## Installation
 
-**Requirements:** Python 3.12+, FFmpeg in `PATH`
+**Requirements:** Python 3.10+, FFmpeg in `PATH`
 
 From PyPI:
 
