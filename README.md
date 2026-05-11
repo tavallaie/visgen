@@ -21,6 +21,20 @@ Generate beautiful, customizable audio visualizer videos with Python. FFT-reacti
 
 **Requirements:** Python 3.12+, FFmpeg in `PATH`
 
+From PyPI:
+
+```bash
+pip install visgen
+```
+
+Or with `uv`:
+
+```bash
+uv add visgen
+```
+
+For local development:
+
 ```bash
 git clone https://github.com/yourname/visgen.git
 cd visgen
