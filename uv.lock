@@ -280,7 +280,7 @@ wheels = [
 
 [[package]]
 name = "visgen"
-version = "0.1.0"
+version = "0.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "cairosvg" },
@@ -292,7 +292,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "cairosvg", specifier = ">=2.9.0" },
-    { name = "numpy", specifier = ">=2.4.4" },
+    { name = "numpy", specifier = ">=1.21.0" },
     { name = "opencv-python", specifier = ">=4.13.0.92" },
     { name = "pillow", specifier = ">=12.2.0" },
 ]
