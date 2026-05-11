@@ -9,9 +9,9 @@ authors = [
 requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.21.0",
-    "opencv-python>=4.13.0.92",
-    "pillow>=12.2.0",
-    "cairosvg>=2.9.0",
+    "opencv-python>=4.5.1.48",
+    "pillow>=8.0.0",
+    "cairosvg>=2.5.0",
 ]
 
 [project.scripts]
